@@ -2,6 +2,7 @@ import { Header } from "@/components/ui/header"
 import { HeroSection, LogosSection } from "@/components/ui/hero"
 import { EntropySection } from "./entropy-section"
 import { FunnelSection } from "./funnel-section"
+import { FooterSection } from "./footer-section"
 
 export function LandingPage() {
   return (
@@ -13,6 +14,7 @@ export function LandingPage() {
         <EntropySection />
         <FunnelSection />
       </main>
+      <FooterSection />
     </div>
   )
 }
