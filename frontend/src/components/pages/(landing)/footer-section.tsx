@@ -37,10 +37,9 @@ export function FooterSection() {
           </div>
 
           <h3 className="text-right text-3xl leading-snug tracking-tight text-foreground md:text-5xl lg:text-6xl">
-            <span className="text-foreground/30">First Yield</span>{" "}
-            Tokenization Protocol on Initia.{" "}
-            <span className="text-foreground/30">Experience</span> advanced
-            DeFi with Leticia.
+            <span className="text-foreground/30">Yield</span>{" "}
+            Tokenization{" "}
+            <span className="text-foreground/30">native to</span> Initia.
           </h3>
         </div>
 
