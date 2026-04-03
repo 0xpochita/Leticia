@@ -1,5 +1,6 @@
 "use client"
 import React from "react"
+import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon"
 import { useScroll } from "@/components/ui/use-scroll"
@@ -36,9 +37,13 @@ export function Header() {
     >
       <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
         <a href="/" className="cursor-pointer p-2">
-          <span className="text-sm font-bold tracking-widest text-foreground uppercase">
-            Leticia
-          </span>
+          <Image
+            src="/Assets/Images/Logo-Brands/logo-leticia.png"
+            alt="Leticia"
+            width={36}
+            height={36}
+            className="size-9 select-none rounded-full"
+          />
         </a>
 
         <div className="hidden items-center gap-10 md:flex">

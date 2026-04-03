@@ -56,81 +56,28 @@ function YieldChart() {
   useEffect(() => {
     if (!inView) return
 
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 1.5, yoyo: true, defaults: { ease: "power3.out" } })
 
     barRefs.current.forEach((bar, i) => {
       if (!bar) return
-      tl.fromTo(
-        bar,
-        { scaleY: 0 },
-        { scaleY: 1, duration: 0.5 },
-        i * 0.07,
-      )
+      tl.fromTo(bar, { scaleY: 0 }, { scaleY: 1, duration: 0.5 }, i * 0.07)
     })
 
     const counter = { val: 0 }
-    tl.to(
-      counter,
-      {
-        val: 10,
-        duration: 1.4,
-        ease: "power2.out",
-        onUpdate() {
-          if (labelRef.current) {
-            labelRef.current.textContent = `${Math.round(counter.val)}%`
-          }
-        },
+    tl.to(counter, {
+      val: 10,
+      duration: 1.4,
+      ease: "power2.out",
+      onUpdate() {
+        if (labelRef.current) labelRef.current.textContent = `${Math.round(counter.val)}%`
       },
-      0,
-    )
+    }, 0)
 
-    tl.fromTo(
-      initRef.current,
-      { x: 60, opacity: 0, scale: 0.6 },
-      { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: "expo.out" },
-      0.3,
-    )
+    tl.fromTo(initRef.current, { x: 60, opacity: 0, scale: 0.6 }, { x: 0, opacity: 1, scale: 1, duration: 0.8, ease: "expo.out" }, 0.3)
+    tl.fromTo(susdeRef.current, { y: -40, opacity: 0, scale: 0.5 }, { y: 0, opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, 0.6)
+    tl.fromTo(inertiaRef.current, { x: -40, y: 30, opacity: 0, scale: 0.5 }, { x: 0, y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "expo.out" }, 0.9)
 
-    tl.fromTo(
-      susdeRef.current,
-      { y: -40, opacity: 0, scale: 0.5 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" },
-      0.6,
-    )
-
-    tl.fromTo(
-      inertiaRef.current,
-      { x: -40, y: 30, opacity: 0, scale: 0.5 },
-      { x: 0, y: 0, opacity: 1, scale: 1, duration: 0.8, ease: "expo.out" },
-      0.9,
-    )
-
-    gsap.to(initRef.current, {
-      y: "-=3",
-      x: "+=2",
-      duration: 4,
-      ease: "sine.inOut",
-      repeat: -1,
-      yoyo: true,
-      delay: 2.5,
-    })
-    gsap.to(susdeRef.current, {
-      y: "+=3",
-      x: "-=2",
-      duration: 3.5,
-      ease: "sine.inOut",
-      repeat: -1,
-      yoyo: true,
-      delay: 3,
-    })
-    gsap.to(inertiaRef.current, {
-      y: "-=4",
-      duration: 3.8,
-      ease: "sine.inOut",
-      repeat: -1,
-      yoyo: true,
-      delay: 3.2,
-    })
+    return () => { tl.kill() }
   }, [inView])
 
   return (
@@ -186,78 +133,36 @@ function LeverageGauge() {
   useEffect(() => {
     if (!inView) return
 
-    const tl = gsap.timeline({ defaults: { ease: "power3.out" } })
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 1.5, yoyo: true, defaults: { ease: "power3.out" } })
 
     if (dashRef.current) {
       const len = dashRef.current.getTotalLength?.() || 534
-      tl.fromTo(
-        dashRef.current,
-        { strokeDasharray: `0 ${len}` },
-        { strokeDasharray: `${len} 0`, duration: 1.2, ease: "power2.inOut" },
-        0,
-      )
+      tl.fromTo(dashRef.current, { strokeDasharray: `0 ${len}` }, { strokeDasharray: `${len} 0`, duration: 1.2, ease: "power2.inOut" }, 0)
     }
 
     if (arcRef.current) {
       const arcLen = arcRef.current.getTotalLength?.() || 220
-      tl.fromTo(
-        arcRef.current,
-        { strokeDasharray: arcLen, strokeDashoffset: arcLen },
-        { strokeDashoffset: 0, duration: 1, ease: "power2.out" },
-        0.3,
-      )
+      tl.fromTo(arcRef.current, { strokeDasharray: arcLen, strokeDashoffset: arcLen }, { strokeDashoffset: 0, duration: 1, ease: "power2.out" }, 0.3)
     }
 
-    tl.fromTo(
-      needleRef.current,
-      { rotate: -120 },
-      { rotate: 15, duration: 2, ease: "expo.out" },
-      0.5,
-    )
-
-    tl.fromTo(
-      dotRef.current,
-      { scale: 0 },
-      { scale: 1, duration: 0.4, ease: "back.out(3)" },
-      0.4,
-    )
+    tl.fromTo(needleRef.current, { rotate: -120 }, { rotate: 15, duration: 2, ease: "expo.out" }, 0.5)
+    tl.fromTo(dotRef.current, { scale: 0 }, { scale: 1, duration: 0.4, ease: "back.out(3)" }, 0.4)
 
     const counter = { val: 0 }
-    tl.to(
-      counter,
-      {
-        val: 17,
-        duration: 1.8,
-        ease: "power2.out",
-        onUpdate() {
-          if (labelRef.current) labelRef.current.textContent = `${Math.round(counter.val)}x`
-        },
+    tl.to(counter, {
+      val: 17,
+      duration: 1.8,
+      ease: "power2.out",
+      onUpdate() {
+        if (labelRef.current) labelRef.current.textContent = `${Math.round(counter.val)}x`
       },
-      0.5,
-    )
+    }, 0.5)
 
-    tl.fromTo(
-      initRef.current,
-      { y: 20, opacity: 0, scale: 0.7 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" },
-      0.8,
-    )
-    tl.fromTo(
-      susdeRef.current,
-      { y: -20, opacity: 0, scale: 0.7 },
-      { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" },
-      1.0,
-    )
-    tl.fromTo(
-      inertiaRef.current,
-      { x: 20, opacity: 0, scale: 0.7 },
-      { x: 0, opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" },
-      1.2,
-    )
+    tl.fromTo(initRef.current, { y: 20, opacity: 0, scale: 0.7 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" }, 0.8)
+    tl.fromTo(susdeRef.current, { y: -20, opacity: 0, scale: 0.7 }, { y: 0, opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" }, 1.0)
+    tl.fromTo(inertiaRef.current, { x: 20, opacity: 0, scale: 0.7 }, { x: 0, opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" }, 1.2)
 
-    gsap.to(initRef.current, { y: "-=3", duration: 3.5, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 3 })
-    gsap.to(susdeRef.current, { y: "+=3", duration: 4, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 3.5 })
-    gsap.to(inertiaRef.current, { y: "-=2", x: "+=2", duration: 3.8, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 3.2 })
+    return () => { tl.kill() }
   }, [inView])
 
   return (
@@ -341,56 +246,26 @@ function LiquidityVisual() {
   useEffect(() => {
     if (!inView) return
 
-    const tl = gsap.timeline({ defaults: { ease: "expo.out" } })
+    const tl = gsap.timeline({ repeat: -1, repeatDelay: 1.5, yoyo: true, defaults: { ease: "expo.out" } })
 
-    tl.fromTo(
-      poolARef.current,
-      { scaleX: 0, opacity: 0 },
-      { scaleX: 1, opacity: 1, duration: 0.8 },
-      0,
-    )
-    tl.fromTo(
-      poolBRef.current,
-      { scaleX: 0, opacity: 0 },
-      { scaleX: 1, opacity: 1, duration: 0.8 },
-      0.15,
-    )
+    tl.fromTo(poolARef.current, { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.8 }, 0)
+    tl.fromTo(poolBRef.current, { scaleX: 0, opacity: 0 }, { scaleX: 1, opacity: 1, duration: 0.8 }, 0.15)
 
     bridgeRefs.current.forEach((el, i) => {
       if (!el) return
-      tl.fromTo(
-        el,
-        { scaleY: 0, opacity: 0 },
-        { scaleY: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" },
-        0.3 + i * 0.1,
-      )
+      tl.fromTo(el, { scaleY: 0, opacity: 0 }, { scaleY: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }, 0.3 + i * 0.1)
     })
 
     if (flowRef.current) {
       const len = flowRef.current.getTotalLength()
-      tl.fromTo(
-        flowRef.current,
-        { strokeDasharray: len, strokeDashoffset: len },
-        { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut" },
-        0.5,
-      )
-
-      gsap.to(flowRef.current, {
-        strokeDashoffset: -len * 2,
-        duration: 4,
-        ease: "none",
-        repeat: -1,
-        delay: 2,
-      })
+      tl.fromTo(flowRef.current, { strokeDasharray: len, strokeDashoffset: len }, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut" }, 0.5)
     }
 
     tl.fromTo(initRef.current, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }, 0.6)
     tl.fromTo(susdeRef.current, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }, 0.8)
     tl.fromTo(inertiaRef.current, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(2)" }, 1.0)
 
-    gsap.to(initRef.current, { y: "-=3", duration: 3.5, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 2.5 })
-    gsap.to(susdeRef.current, { y: "+=2", x: "-=2", duration: 4, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 3 })
-    gsap.to(inertiaRef.current, { y: "-=2", duration: 3.2, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 3.5 })
+    return () => { tl.kill() }
   }, [inView])
 
   return (
@@ -507,7 +382,7 @@ export function FeaturesSection() {
             return (
               <motion.div
                 key={feature.title}
-                className="flex flex-col gap-6 rounded-2xl border border-foreground/10 bg-foreground/3 p-5"
+                className="flex flex-col gap-6 rounded-2xl  bg-foreground/3 p-5"
                 custom={i}
                 initial="hidden"
                 whileInView="visible"

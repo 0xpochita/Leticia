@@ -1,6 +1,6 @@
 "use client"
 
-import { PlusIcon } from "lucide-react"
+import Image from "next/image"
 import { LaunchButton } from "@/components/ui/launch-button"
 
 const navLinks = [
@@ -25,7 +25,6 @@ export function FooterSection() {
               Start Managing Your Yield
             </h2>
             <div className="flex items-start gap-2">
-              <PlusIcon className="mt-0.5 size-4 shrink-0 text-foreground/30" />
               <p className="max-w-xs text-sm leading-relaxed text-foreground/50">
                 Join The Growing Community Of Initia Users Who Are Taking
                 Control Of Their DeFi Returns With Leticia.
@@ -39,13 +38,27 @@ export function FooterSection() {
           <h3 className="text-right text-3xl leading-snug tracking-tight text-foreground md:text-5xl lg:text-6xl">
             <span className="text-foreground/30">Yield</span>{" "}
             Tokenization{" "}
-            <span className="text-foreground/30">native to</span> Initia.
+            <span className="text-foreground/30">native to</span> Initia
+            <Image
+              src="/Assets/Images/Logo/init-logo.webp"
+              alt="Initia"
+              width={100}
+              height={100}
+              className="pointer-events-none -mb-2 ml-1 inline-block select-none align-middle"
+            />
           </h3>
         </div>
 
         <div className="mt-20 border-t border-background/10 pt-10">
           <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-            <div>
+            <div className="flex items-center gap-3">
+              <Image
+                src="/Assets/Images/Logo-Brands/logo-leticia.png"
+                alt="Leticia"
+                width={48}
+                height={48}
+                className="size-12 select-none rounded-full"
+              />
               <span className="text-sm font-bold tracking-widest text-foreground uppercase">
                 Leticia
               </span>
@@ -91,9 +104,17 @@ export function FooterSection() {
         </div>
       </div>
 
-      <div className="pointer-events-none mt-10 select-none overflow-hidden">
+      <div className="pointer-events-none mt-10 flex select-none items-center justify-center gap-4 overflow-hidden">
+        <Image
+          src="/Assets/Images/Logo-Brands/logo-leticia.png"
+          alt="Leticia"
+          width={200}
+          height={200}
+          className="select-none rounded-full opacity-5"
+          style={{ width: "clamp(100px, 12vw, 200px)", height: "auto" }}
+        />
         <p
-          className="whitespace-nowrap text-center font-bold uppercase text-foreground/5 leading-none"
+          className="whitespace-nowrap font-bold uppercase text-foreground/5 leading-none"
           style={{ fontSize: "clamp(120px, 15vw, 260px)" }}
         >
           LETICIA
