@@ -36,7 +36,7 @@ export function Header() {
       )}
     >
       <nav className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between px-6">
-        <a href="/" className="cursor-pointer p-2">
+        <a href="/" className="flex cursor-pointer items-center gap-2.5 p-2">
           <Image
             src="/Assets/Images/Logo-Brands/logo-leticia.png"
             alt="Leticia"
@@ -44,6 +44,9 @@ export function Header() {
             height={36}
             className="size-9 select-none rounded-full"
           />
+          <span className="text-lg font-medium tracking-[-0.04em] text-foreground">
+            Leticia
+          </span>
         </a>
 
         <div className="hidden items-center gap-10 md:flex">
