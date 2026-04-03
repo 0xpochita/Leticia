@@ -1,6 +1,7 @@
 "use client"
 
 import { motion } from "framer-motion"
+import Image from "next/image"
 import { LogoCloud } from "@/components/ui/logo-cloud"
 import { LaunchButton } from "@/components/ui/launch-button"
 
@@ -52,6 +53,39 @@ const fadeUp = {
   }),
 }
 
+function YieldCard({
+  logo,
+  alt,
+  rate,
+  token,
+}: {
+  logo: string
+  alt: string
+  rate: string
+  token: string
+}) {
+  return (
+    <div className="flex flex-1 items-center justify-between gap-4 rounded-2xl border border-foreground/10 bg-foreground/3 px-5 py-4 backdrop-blur-sm">
+      <div className="flex flex-col gap-1">
+        <span className="text-[10px] text-foreground/40">Fixed Yield</span>
+        <div className="flex items-center gap-2.5">
+          <Image
+            src={logo}
+            alt={alt}
+            width={32}
+            height={32}
+            className="pointer-events-none select-none"
+          />
+          <span className="text-xl font-semibold tracking-tight text-foreground">
+            {rate}
+          </span>
+        </div>
+      </div>
+      <span className="text-sm font-medium text-foreground/40">({token})</span>
+    </div>
+  )
+}
+
 export function HeroSection() {
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
@@ -71,7 +105,7 @@ export function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-b from-[26.416%] from-[rgba(255,255,255,0)] to-[66.943%] to-white" />
 
       <div
-        className="relative mx-auto flex max-w-[1200px] flex-col gap-8 px-6"
+        className="relative mx-auto flex max-w-300 flex-col gap-8 px-6"
         style={{ paddingTop: 290 }}
       >
         <motion.h1
@@ -81,24 +115,24 @@ export function HeroSection() {
           animate="visible"
           variants={fadeUp}
         >
-          Simple{" "}
+          One yield,{" "}
           <span className="font-serif italic text-[clamp(60px,6.25vw,100px)]">
-            tokenization
+            every chain
           </span>
           <br />
-          for your yield strategy
+          zero boundaries
         </motion.h1>
 
         <motion.p
-          className="max-w-[554px] text-lg leading-relaxed text-[#373a46]/80"
+          className="max-w-138.5 text-lg leading-relaxed text-[#373a46]/80"
           custom={1}
           initial="hidden"
           animate="visible"
           variants={fadeUp}
         >
-          Split yield-bearing assets into Principal and Yield Tokens on a custom
-          yield-aware AMM. Fixed rates, yield speculation, and leveraged points
-          farming on Initia.
+          Split yield-bearing assets into Principal and Yield Tokens on a
+          custom yield-aware AMM. Fixed rates, yield speculation, and
+          leveraged points farming on Initia.
         </motion.p>
 
         <motion.div
@@ -108,6 +142,33 @@ export function HeroSection() {
           variants={fadeUp}
         >
           <LaunchButton />
+        </motion.div>
+
+        <motion.div
+          className="flex flex-col gap-3 md:flex-row"
+          custom={3}
+          initial="hidden"
+          animate="visible"
+          variants={fadeUp}
+        >
+          <YieldCard
+            logo="/Assets/Images/Logo/milktia-logo.webp"
+            alt="milkTIA"
+            rate="Up to 8%"
+            token="milkTIA"
+          />
+          <YieldCard
+            logo="/Assets/Images/Logo/susde-logo.webp"
+            alt="sUSDe"
+            rate="Up to 12%"
+            token="sUSDe"
+          />
+          <YieldCard
+            logo="/Assets/Images/Logo/init-logo.webp"
+            alt="INIT"
+            rate="Up to 6%"
+            token="INIT"
+          />
         </motion.div>
       </div>
     </section>
