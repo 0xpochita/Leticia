@@ -46,7 +46,7 @@ function YieldCard({
   badge?: "lock"
 }) {
   return (
-    <div className="flex flex-1 items-center justify-between gap-4 rounded-2xl border border-foreground/10 bg-foreground/3 px-5 py-4 backdrop-blur-sm">
+    <div className="flex flex-1 items-center justify-between gap-4 rounded-2xl bg-foreground/3 px-5 py-4 backdrop-blur-sm">
       <div className="flex flex-col gap-1">
         <span className="text-[10px] text-foreground/40">{label}</span>
         <div className="flex items-center gap-2.5">
@@ -103,12 +103,19 @@ export function HeroSection() {
           animate="visible"
           variants={fadeUp}
         >
-          One yield,{" "}
+          Unlock{" "}
           <span className="font-serif italic text-[clamp(60px,6.25vw,100px)]">
-            every chain
+            every yield
           </span>
           <br />
-          zero boundaries
+          on Initia
+          <Image
+            src="/Assets/Images/Logo/init-logo.webp"
+            alt="Initia"
+            width={130}
+            height={130}
+            className="pointer-events-none -mb-2 ml-2 inline-block select-none align-middle"
+          />
         </motion.h1>
 
         <motion.p
@@ -119,8 +126,8 @@ export function HeroSection() {
           variants={fadeUp}
         >
           Split yield-bearing assets into Principal and Yield Tokens on a
-          custom yield-aware AMM. Fixed rates, yield speculation, and
-          leveraged points farming on Initia.
+          custom yield-aware AMM. Fixed rates, yield speculation, and leveraged
+          esINIT farming — native to Initia.
         </motion.p>
 
         <motion.div
