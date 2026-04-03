@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import { LockIcon } from "lucide-react"
 import { LogoCloud } from "@/components/ui/logo-cloud"
+import { HeroGrid } from "@/components/ui/hero-grid"
 import { LaunchButton } from "@/components/ui/launch-button"
 
 const logos = [
@@ -77,20 +78,9 @@ function YieldCard({
 export function HeroSection() {
   return (
     <section className="relative min-h-screen w-full overflow-hidden">
-      <video
-        autoPlay
-        muted
-        loop
-        playsInline
-        className="pointer-events-none absolute inset-0 h-full w-full object-cover [transform:scaleY(-1)] grayscale"
-      >
-        <source
-          src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260302_085640_276ea93b-d7da-4418-a09b-2aa5b490e838.mp4"
-          type="video/mp4"
-        />
-      </video>
+      <HeroGrid />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-[26.416%] from-[rgba(255,255,255,0)] to-[66.943%] to-white" />
+      <div className="absolute inset-0 bg-linear-to-b from-[26.416%] from-[rgba(255,255,255,0)] to-[66.943%] to-white" />
 
       <div
         className="relative mx-auto flex max-w-300 flex-col gap-8 px-6"
@@ -112,8 +102,8 @@ export function HeroSection() {
           <Image
             src="/Assets/Images/Logo/init-logo.webp"
             alt="Initia"
-            width={130}
-            height={130}
+            width={100}
+            height={100}
             className="pointer-events-none -mb-2 ml-2 inline-block select-none align-middle"
           />
         </motion.h1>
