@@ -1,7 +1,7 @@
 import { Header } from "@/components/ui/header"
-import { HeroSection, LogosSection } from "@/components/ui/hero"
+import { HeroSection } from "@/components/ui/hero"
 import { EntropySection } from "./entropy-section"
-import { FunnelSection } from "./funnel-section"
+import { FeaturesSection } from "./features-section"
 import { FooterSection } from "./footer-section"
 
 export function LandingPage() {
@@ -10,9 +10,8 @@ export function LandingPage() {
       <Header />
       <main className="grow">
         <HeroSection />
-        <LogosSection />
         <EntropySection />
-        <FunnelSection />
+        <FeaturesSection />
       </main>
       <FooterSection />
     </div>

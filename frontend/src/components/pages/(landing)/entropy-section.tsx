@@ -1,63 +1,96 @@
 "use client"
+import Image from "next/image"
 import { Entropy } from "@/components/ui/entropy"
-import { Button } from "@/components/ui/button"
-import { ArrowRightIcon, PlayIcon } from "lucide-react"
+import { LaunchButton } from "@/components/ui/launch-button"
+import { PlusIcon } from "lucide-react"
+
+function YieldCard({
+  logo,
+  alt,
+  rate,
+  token,
+  label,
+}: {
+  logo: string
+  alt: string
+  rate: string
+  token: string
+  label: string
+}) {
+  return (
+    <div className="flex items-center justify-between gap-6 rounded-2xl border border-foreground/10 bg-foreground/3 px-6 py-5 backdrop-blur-sm">
+      <div className="flex flex-col gap-1">
+        <span className="text-[10px] text-foreground/40">{label}</span>
+        <div className="flex items-center gap-3">
+          <Image
+            src={logo}
+            alt={alt}
+            width={32}
+            height={32}
+            className="pointer-events-none select-none rounded-full"
+          />
+          <span className="text-2xl font-semibold tracking-tight text-foreground">
+            {rate}
+          </span>
+        </div>
+      </div>
+      <span className="text-sm font-medium text-foreground/40">({token})</span>
+    </div>
+  )
+}
 
 export function EntropySection() {
   return (
-    <section className="relative w-full bg-background py-32 md:py-40">
-      <div className="mx-auto grid max-w-6xl grid-cols-1 items-center gap-0 px-4 md:grid-cols-2">
-        <div className="relative flex items-center justify-center overflow-hidden rounded-2xl bg-foreground md:justify-start">
-          <Entropy className="shrink-0" size={480} />
-        </div>
-
-        <div className="flex flex-col gap-8 px-6 py-12 md:px-12">
-          <span className="text-xs tracking-[0.3em] text-foreground/40 uppercase">
-            About the Protocol
-          </span>
-
-          <h2 className="text-4xl font-light leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
-            Order Meets
-            <br />
-            Chaos
-          </h2>
-
-          <div className="flex items-center gap-3">
-            <span className="rounded-full border border-foreground/15 px-4 py-1.5 text-xs tracking-wider text-foreground/60">
-              Cross-chain
-            </span>
-            <span className="rounded-full border border-foreground/15 px-4 py-1.5 text-xs tracking-wider text-foreground/60">
-              Yield
-            </span>
-            <span className="rounded-full border border-foreground/15 px-4 py-1.5 text-xs tracking-wider text-foreground/60">
+    <section className="relative w-full overflow-hidden bg-background py-32 md:py-40">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="grid grid-cols-1 gap-16 md:grid-cols-2">
+          <div className="flex flex-col gap-8">
+            <h2 className="text-4xl leading-tight tracking-tight text-foreground md:text-5xl lg:text-6xl">
+              <span className="text-foreground/40">First Yield</span>{" "}
+              Tokenization
+              <br />
+              Protocol on Initia.
+              <br />
+              <span className="text-foreground/40">Experience</span> advanced
               DeFi
-            </span>
+              <br />
+              with Leticia.
+            </h2>
+
+            <div className="flex items-start gap-3 pt-8">
+              <PlusIcon className="mt-0.5 size-4 shrink-0 text-foreground/40" />
+              <p className="max-w-sm text-sm leading-relaxed text-foreground/50">
+                Leticia Brings Yield Tokenization To Initia, Letting You Manage
+                Your DeFi Returns With More Control And Flexibility.
+              </p>
+            </div>
+
+            <div>
+              <LaunchButton label="Open App" />
+            </div>
           </div>
 
-          <p className="max-w-sm text-sm leading-relaxed text-foreground/50">
-            Our protocol transforms unpredictable cross-chain yields into
-            structured, tradeable tokens. Split any yield-bearing asset into
-            Principal and Yield Tokens with deterministic outcomes.
-          </p>
+          <div className="relative flex flex-col gap-6">
+            <div className="relative mx-auto h-[400px] w-full max-w-[500px] overflow-hidden rounded-2xl bg-foreground">
+              <Entropy className="shrink-0 rounded-none" size={400} />
+            </div>
 
-          <div className="flex items-center gap-4">
-            <Button
-              size="lg"
-              variant="outline"
-              className="cursor-pointer rounded-none border-foreground/20 bg-transparent text-xs tracking-widest text-foreground uppercase hover:bg-foreground/5 hover:text-foreground"
-            >
-              Learn More
-              <ArrowRightIcon className="ml-2 size-3.5" />
-            </Button>
-            <button
-              type="button"
-              className="flex cursor-pointer items-center gap-2 text-xs tracking-widest text-foreground/50 uppercase transition-colors hover:text-foreground"
-            >
-              <span className="flex size-8 items-center justify-center rounded-full border border-foreground/20">
-                <PlayIcon className="size-3 fill-current" />
-              </span>
-              Watch Demo
-            </button>
+            <div className="flex flex-col gap-3">
+              <YieldCard
+                logo="/Assets/Images/Logo/init-logo.webp"
+                alt="INIT-USDC LP"
+                rate="Up to 12%"
+                token="INIT-USDC LP"
+                label="Fixed Yield"
+              />
+              <YieldCard
+                logo="/Assets/Images/Logo/inertia-logo.png"
+                alt="sINIT"
+                rate="Up to 15%"
+                token="sINIT"
+                label="Fixed Yield"
+              />
+            </div>
           </div>
         </div>
       </div>

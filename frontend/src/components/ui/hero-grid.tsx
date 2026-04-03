@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo } from "react"
+import { useState, useEffect, useMemo } from "react"
 import Image from "next/image"
 import { motion } from "framer-motion"
 
@@ -31,18 +31,30 @@ const logoMap: Record<string, string> = {
   "5-15": "/Assets/Images/Logo-Decorative/echelon-logo.png",
 }
 
+function seededRandom(seed: number) {
+  const x = Math.sin(seed * 9301 + 49297) * 49297
+  return x - Math.floor(x)
+}
+
+const BASE_COLOR = "hsl(0 0% 93%)"
+
+const cells = Array.from({ length: COLS * ROWS }, (_, i) => {
+  const row = Math.floor(i / COLS)
+  const col = i % COLS
+  const lightness = 89 + seededRandom(i) * 7
+  return {
+    key: `${row}-${col}`,
+    row,
+    col,
+    baseColor: `hsl(0 0% ${lightness.toFixed(1)}%)`,
+  }
+})
+
 export function HeroGrid() {
-  const cells = useMemo(() => {
-    return Array.from({ length: COLS * ROWS }, (_, i) => {
-      const row = Math.floor(i / COLS)
-      const col = i % COLS
-      return {
-        key: `${row}-${col}`,
-        row,
-        col,
-        baseColor: `hsl(0 0% ${89 + Math.random() * 7}%)`,
-      }
-    })
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
   }, [])
 
   return (
@@ -62,36 +74,42 @@ export function HeroGrid() {
           const delay = cell.col * 0.15 + cell.row * 0.08
 
           return (
-            <motion.div
+            <div
               key={cell.key}
               className="relative flex items-center justify-center overflow-hidden rounded-lg"
-              style={{ backgroundColor: cell.baseColor }}
-              animate={{
-                backgroundColor: [
-                  cell.baseColor,
-                  "hsl(0 0% 97%)",
-                  cell.baseColor,
-                  "hsl(0 0% 97%)",
-                  cell.baseColor,
-                ],
-              }}
-              transition={{
-                duration: 6,
-                ease: "easeInOut",
-                repeat: Number.POSITIVE_INFINITY,
-                delay,
-              }}
+              style={{ backgroundColor: mounted ? undefined : cell.baseColor }}
             >
+              {mounted && (
+                <motion.div
+                  className="absolute inset-0"
+                  initial={{ backgroundColor: cell.baseColor }}
+                  animate={{
+                    backgroundColor: [
+                      cell.baseColor,
+                      "hsl(0 0% 97%)",
+                      cell.baseColor,
+                      "hsl(0 0% 97%)",
+                      cell.baseColor,
+                    ],
+                  }}
+                  transition={{
+                    duration: 6,
+                    ease: "easeInOut",
+                    repeat: Number.POSITIVE_INFINITY,
+                    delay,
+                  }}
+                />
+              )}
               {logo && (
                 <Image
                   src={logo}
                   alt=""
                   width={28}
                   height={28}
-                  className="select-none opacity-65"
+                  className="relative z-10 select-none opacity-65"
                 />
               )}
-            </motion.div>
+            </div>
           )
         })}
       </div>
