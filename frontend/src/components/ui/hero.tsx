@@ -2,42 +2,19 @@
 
 import { motion } from "framer-motion"
 import Image from "next/image"
+import { LockIcon } from "lucide-react"
 import { LogoCloud } from "@/components/ui/logo-cloud"
 import { LaunchButton } from "@/components/ui/launch-button"
 
 const logos = [
-  {
-    src: "https://storage.efferd.com/logo/nvidia-wordmark.svg",
-    alt: "Nvidia Logo",
-  },
-  {
-    src: "https://storage.efferd.com/logo/supabase-wordmark.svg",
-    alt: "Supabase Logo",
-  },
-  {
-    src: "https://storage.efferd.com/logo/openai-wordmark.svg",
-    alt: "OpenAI Logo",
-  },
-  {
-    src: "https://storage.efferd.com/logo/turso-wordmark.svg",
-    alt: "Turso Logo",
-  },
-  {
-    src: "https://storage.efferd.com/logo/vercel-wordmark.svg",
-    alt: "Vercel Logo",
-  },
-  {
-    src: "https://storage.efferd.com/logo/github-wordmark.svg",
-    alt: "GitHub Logo",
-  },
-  {
-    src: "https://storage.efferd.com/logo/claude-wordmark.svg",
-    alt: "Claude AI Logo",
-  },
-  {
-    src: "https://storage.efferd.com/logo/clerk-wordmark.svg",
-    alt: "Clerk Logo",
-  },
+  { src: "https://storage.efferd.com/logo/nvidia-wordmark.svg", alt: "Nvidia Logo" },
+  { src: "https://storage.efferd.com/logo/supabase-wordmark.svg", alt: "Supabase Logo" },
+  { src: "https://storage.efferd.com/logo/openai-wordmark.svg", alt: "OpenAI Logo" },
+  { src: "https://storage.efferd.com/logo/turso-wordmark.svg", alt: "Turso Logo" },
+  { src: "https://storage.efferd.com/logo/vercel-wordmark.svg", alt: "Vercel Logo" },
+  { src: "https://storage.efferd.com/logo/github-wordmark.svg", alt: "GitHub Logo" },
+  { src: "https://storage.efferd.com/logo/claude-wordmark.svg", alt: "Claude AI Logo" },
+  { src: "https://storage.efferd.com/logo/clerk-wordmark.svg", alt: "Clerk Logo" },
 ]
 
 const fadeUp = {
@@ -58,24 +35,35 @@ function YieldCard({
   alt,
   rate,
   token,
+  label,
+  badge,
 }: {
   logo: string
   alt: string
   rate: string
   token: string
+  label: string
+  badge?: "lock"
 }) {
   return (
     <div className="flex flex-1 items-center justify-between gap-4 rounded-2xl border border-foreground/10 bg-foreground/3 px-5 py-4 backdrop-blur-sm">
       <div className="flex flex-col gap-1">
-        <span className="text-[10px] text-foreground/40">Fixed Yield</span>
+        <span className="text-[10px] text-foreground/40">{label}</span>
         <div className="flex items-center gap-2.5">
-          <Image
-            src={logo}
-            alt={alt}
-            width={32}
-            height={32}
-            className="pointer-events-none select-none"
-          />
+          <div className="relative">
+            <Image
+              src={logo}
+              alt={alt}
+              width={32}
+              height={32}
+              className="pointer-events-none select-none rounded-full"
+            />
+            {badge === "lock" && (
+              <span className="absolute -right-1 -bottom-1 flex size-4 items-center justify-center rounded-full bg-foreground text-[8px] text-background">
+                <LockIcon className="size-2.5" />
+              </span>
+            )}
+          </div>
           <span className="text-xl font-semibold tracking-tight text-foreground">
             {rate}
           </span>
@@ -152,22 +140,26 @@ export function HeroSection() {
           variants={fadeUp}
         >
           <YieldCard
-            logo="/Assets/Images/Logo/milktia-logo.webp"
-            alt="milkTIA"
-            rate="Up to 8%"
-            token="milkTIA"
-          />
-          <YieldCard
-            logo="/Assets/Images/Logo/susde-logo.webp"
-            alt="sUSDe"
-            rate="Up to 12%"
-            token="sUSDe"
-          />
-          <YieldCard
             logo="/Assets/Images/Logo/init-logo.webp"
-            alt="INIT"
-            rate="Up to 6%"
-            token="INIT"
+            alt="INIT-USDC LP"
+            rate="Up to 12%"
+            token="INIT-USDC LP"
+            label="Enshrined Liquidity"
+          />
+          <YieldCard
+            logo="/Assets/Images/Logo/init-logo.png"
+            alt="esINIT"
+            rate="Up to 7%"
+            token="esINIT"
+            label="VIP Rewards"
+            badge="lock"
+          />
+          <YieldCard
+            logo="/Assets/Images/Logo/inertia-logo.png"
+            alt="sINIT"
+            rate="Up to 15%"
+            token="sINIT"
+            label="Liquid Staking"
           />
         </motion.div>
       </div>
