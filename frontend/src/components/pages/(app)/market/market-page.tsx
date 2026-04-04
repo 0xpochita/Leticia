@@ -2,10 +2,12 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { InfoIcon, SearchIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface MarketAsset {
+  slug: string
   name: string
   subtitle: string
   logo: string
@@ -22,6 +24,7 @@ interface MarketAsset {
 
 const markets: MarketAsset[] = [
   {
+    slug: "init-usdc-lp",
     name: "INIT-USDC LP",
     subtitle: "Enshrined Liquidity",
     logo: "/Assets/Images/Logo/init-logo.png",
@@ -36,6 +39,7 @@ const markets: MarketAsset[] = [
     volume24h: "$42,300",
   },
   {
+    slug: "esinit",
     name: "esINIT",
     subtitle: "VIP Rewards",
     logo: "/Assets/Images/Logo/init-logo.png",
@@ -50,6 +54,7 @@ const markets: MarketAsset[] = [
     volume24h: "$18,900",
   },
   {
+    slug: "sinit",
     name: "sINIT",
     subtitle: "Liquid Staking",
     logo: "/Assets/Images/Logo/inertia-logo.png",
@@ -168,7 +173,7 @@ export function MarketPage() {
 
 function MarketRow({ asset }: { asset: MarketAsset }) {
   return (
-    <div className="flex flex-col items-center gap-4 px-5 py-3.5 transition-colors hover:bg-foreground/[0.02] md:flex-row md:gap-0">
+    <Link href={`/market/${asset.slug}`} className="flex flex-col items-center gap-4 px-5 py-3.5 transition-colors hover:bg-foreground/[0.02] md:flex-row md:gap-0">
       <div className="flex w-[16%] shrink-0 items-center gap-3">
         <Image
           src={asset.logo}
@@ -228,6 +233,6 @@ function MarketRow({ asset }: { asset: MarketAsset }) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   )
 }

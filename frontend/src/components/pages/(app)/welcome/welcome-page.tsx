@@ -1,9 +1,11 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FiChevronRight } from "react-icons/fi";
+import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -106,8 +108,26 @@ function AnimatedLogos({
 }
 
 export function WelcomePage() {
+  const router = useRouter();
+  const [exiting, setExiting] = useState(false);
+  const [exitTarget, setExitTarget] = useState("");
+
+  const handleNavigate = useCallback(
+    (href: string) => {
+      setExitTarget(href);
+      setExiting(true);
+      setTimeout(() => router.push(href), 500);
+    },
+    [router],
+  );
+
   return (
-    <div className="mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 py-16">
+    <motion.div
+      className="mx-auto flex min-h-screen max-w-5xl flex-col items-center justify-center px-6 py-16"
+      initial={{ opacity: 0, y: 20 }}
+      animate={exiting ? { opacity: 0, y: -30, scale: 0.98 } : { opacity: 1, y: 0, scale: 1 }}
+      transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
+    >
       <Image
         src="/Assets/Images/Logo-Brands/logo-leticia.png"
         alt="Leticia"
@@ -135,7 +155,7 @@ export function WelcomePage() {
       </Link>
 
       <div className="mt-12 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
-        <Link href="/earn" className="group">
+        <div onClick={() => handleNavigate("/earn")} onKeyDown={() => {}} role="button" tabIndex={0} className="group cursor-pointer">
           <Card className="flex h-full flex-col gap-3 overflow-hidden rounded-3xl border p-3 shadow-lg transition-shadow group-hover:shadow-xl">
             <CardHeader className="p-0">
               <div className="flex h-52 w-full items-center justify-center rounded-2xl bg-foreground/5">
@@ -198,9 +218,9 @@ export function WelcomePage() {
               </div>
             </CardFooter>
           </Card>
-        </Link>
+        </div>
 
-        <Link href="/market" className="group">
+        <div onClick={() => handleNavigate("/market")} onKeyDown={() => {}} role="button" tabIndex={0} className="group cursor-pointer">
           <Card className="flex h-full flex-col gap-3 overflow-hidden rounded-3xl border p-3 shadow-lg transition-shadow group-hover:shadow-xl">
             <CardHeader className="p-0">
               <div className="flex h-52 w-full items-center justify-center rounded-2xl bg-foreground">
@@ -267,8 +287,8 @@ export function WelcomePage() {
               </div>
             </CardFooter>
           </Card>
-        </Link>
+        </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
