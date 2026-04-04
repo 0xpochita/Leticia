@@ -8,11 +8,11 @@ import { cn } from "@/lib/utils"
 import { WalletIcon } from "lucide-react"
 
 const navLinks = [
-  { label: "Earn", href: "/earn" },
+  { label: "Earn", href: "/market/earn" },
   { label: "Market", href: "/market" },
-  { label: "Pools", href: "/pools" },
-  { label: "Rewards", href: "/rewards" },
-  { label: "Dashboard", href: "/dashboard" },
+  { label: "Pools", href: "/market/pools" },
+  { label: "Rewards", href: "/market/rewards" },
+  { label: "Dashboard", href: "/market/dashboard" },
 ]
 
 export function AppHeader() {
