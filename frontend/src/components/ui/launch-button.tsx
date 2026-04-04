@@ -9,7 +9,7 @@ interface LaunchButtonProps {
 }
 
 export function LaunchButton({
-  href = "#launch",
+  href = "/welcome",
   className,
   label = "Launch App",
   size = "default",
