@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { InfoIcon } from "lucide-react"
+import { InfoIcon, SearchIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface EarnAsset {
@@ -60,65 +60,96 @@ const assets: EarnAsset[] = [
 
 export function EarnFixedPage() {
   const [tab, setTab] = useState<"active" | "inactive">("active")
+  const [search, setSearch] = useState("")
+
+  const filtered = assets.filter(
+    (a) =>
+      a.name.toLowerCase().includes(search.toLowerCase()) ||
+      a.subtitle.toLowerCase().includes(search.toLowerCase()),
+  )
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-12">
-      <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">
-        Earn Fixed Yield
-      </h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-4xl font-bold tracking-tight text-foreground md:text-5xl">
+          Earn Fixed Yield
+        </h1>
+      </div>
 
-      <p className="mt-4 max-w-2xl text-base leading-relaxed text-foreground/60">
+      <p className="mt-4 max-w-2xl text-sm leading-relaxed text-foreground/50">
         Lock in a fixed yield that you'll receive at maturity, with the
         flexibility to withdraw earlier at market rates if needed
       </p>
 
-      <div className="mt-8 flex w-fit items-center gap-1 rounded-full border border-foreground/10 p-1">
-        <button
-          type="button"
-          onClick={() => setTab("active")}
-          className={cn(
-            "cursor-pointer rounded-full px-5 py-1.5 text-sm font-medium transition-colors",
-            tab === "active"
-              ? "bg-foreground text-background"
-              : "text-foreground/50 hover:text-foreground",
-          )}
-        >
-          Active
-        </button>
-        <button
-          type="button"
-          onClick={() => setTab("inactive")}
-          className={cn(
-            "cursor-pointer rounded-full px-5 py-1.5 text-sm font-medium transition-colors",
-            tab === "inactive"
-              ? "bg-foreground text-background"
-              : "text-foreground/50 hover:text-foreground",
-          )}
-        >
-          Inactive
-        </button>
-      </div>
+      <div className="mt-8 rounded-2xl border border-foreground/10">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-foreground/5 px-5 py-3">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-1 rounded-full border border-foreground/10 p-0.5">
+              <button
+                type="button"
+                onClick={() => setTab("active")}
+                className={cn(
+                  "cursor-pointer rounded-full px-4 py-1 text-xs font-medium transition-colors",
+                  tab === "active"
+                    ? "bg-foreground text-background"
+                    : "text-foreground/40 hover:text-foreground",
+                )}
+              >
+                Active
+              </button>
+              <button
+                type="button"
+                onClick={() => setTab("inactive")}
+                className={cn(
+                  "cursor-pointer rounded-full px-4 py-1 text-xs font-medium transition-colors",
+                  tab === "inactive"
+                    ? "bg-foreground text-background"
+                    : "text-foreground/40 hover:text-foreground",
+                )}
+              >
+                Inactive
+              </button>
+            </div>
+          </div>
 
-      <div className="mt-8">
-        <div className="hidden items-center border-b border-foreground/10 pb-3 text-xs text-foreground/40 md:grid md:grid-cols-12 md:gap-4 md:px-6">
-          <div className="col-span-3">Asset</div>
-          <div className="col-span-2">
-            Fixed APR <InfoIcon className="mb-0.5 ml-1 inline size-3" />
+          <div className="flex items-center gap-2 rounded-lg border border-foreground/10 px-3 py-1.5">
+            <SearchIcon className="size-3.5 text-foreground/30" />
+            <input
+              type="text"
+              placeholder="Search assets"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-32 bg-transparent text-xs text-foreground outline-none placeholder:text-foreground/30"
+            />
           </div>
-          <div className="col-span-2">APR shown in</div>
-          <div className="col-span-3">
-            Maturity <InfoIcon className="mb-0.5 ml-1 inline size-3" />
-          </div>
-          <div className="col-span-2 text-right">Liquidity</div>
         </div>
 
-        <div className="mt-2 flex flex-col gap-3">
+        <div className="hidden items-center px-5 py-2.5 text-[11px] text-foreground/35 md:grid md:grid-cols-12 md:gap-4">
+          <div className="col-span-3">Asset</div>
+          <div className="col-span-2">
+            Fixed APR <InfoIcon className="mb-0.5 ml-0.5 inline size-2.5" />
+          </div>
+          <div className="col-span-2">APR shown in</div>
+          <div className="col-span-2">
+            Maturity <InfoIcon className="mb-0.5 ml-0.5 inline size-2.5" />
+          </div>
+          <div className="col-span-1 text-right">Liquidity</div>
+          <div className="col-span-2" />
+        </div>
+
+        <div className="divide-y divide-foreground/5">
           {tab === "active" ? (
-            assets.map((asset) => (
-              <EarnRow key={asset.name} asset={asset} />
-            ))
+            filtered.length > 0 ? (
+              filtered.map((asset) => (
+                <EarnRow key={asset.slug} asset={asset} />
+              ))
+            ) : (
+              <p className="py-12 text-center text-xs text-foreground/30">
+                No results
+              </p>
+            )
           ) : (
-            <p className="py-12 text-center text-sm text-foreground/40">
+            <p className="py-12 text-center text-xs text-foreground/30">
               No inactive markets
             </p>
           )}
@@ -132,24 +163,24 @@ function EarnRow({ asset }: { asset: EarnAsset }) {
   return (
     <Link
       href={`/market/earn/${asset.slug}`}
-      className="grid cursor-pointer grid-cols-1 items-center gap-4 rounded-2xl border border-foreground/10 bg-foreground/[0.02] px-6 py-5 transition-colors hover:bg-foreground/[0.04] md:grid-cols-12"
+      className="grid cursor-pointer grid-cols-1 items-center gap-4 px-5 py-3.5 transition-colors hover:bg-foreground/[0.02] md:grid-cols-12"
     >
       <div className="col-span-3 flex items-center gap-3">
         <Image
           src={asset.logo}
           alt={asset.name}
-          width={40}
-          height={40}
-          className="size-10 rounded-full"
+          width={32}
+          height={32}
+          className="size-8 rounded-full"
         />
         <div>
-          <p className="text-sm font-semibold text-foreground">{asset.name}</p>
-          <p className="text-xs text-foreground/40">{asset.subtitle}</p>
+          <p className="text-sm font-medium text-foreground">{asset.name}</p>
+          <p className="text-[11px] text-foreground/35">{asset.subtitle}</p>
         </div>
       </div>
 
       <div className="col-span-2">
-        <span className="text-lg font-bold text-foreground">
+        <span className="text-sm font-semibold text-foreground">
           {asset.fixedApr}
         </span>
       </div>
@@ -158,22 +189,26 @@ function EarnRow({ asset }: { asset: EarnAsset }) {
         <Image
           src={asset.aprTokenLogo}
           alt={asset.aprToken}
-          width={24}
-          height={24}
-          className="size-6 rounded-full"
+          width={20}
+          height={20}
+          className="size-5 rounded-full"
         />
-        <span className="text-sm font-medium text-foreground">
-          {asset.aprToken}
-        </span>
+        <span className="text-sm text-foreground/60">{asset.aprToken}</span>
       </div>
 
-      <div className="col-span-3">
-        <p className="text-sm font-medium text-foreground">{asset.maturity}</p>
-        <p className="text-xs text-foreground/40">{asset.daysLeft} days</p>
+      <div className="col-span-2">
+        <p className="text-sm text-foreground">{asset.maturity}</p>
+        <p className="text-[11px] text-foreground/35">{asset.daysLeft} days</p>
       </div>
 
-      <div className="col-span-2 text-right text-sm font-medium text-foreground">
+      <div className="col-span-1 text-right text-sm text-foreground/60">
         {asset.liquidity}
+      </div>
+
+      <div className="col-span-2 flex justify-end">
+        <span className="whitespace-nowrap rounded-full bg-foreground/5 px-4 py-2 text-[11px] text-foreground/60 transition-colors hover:bg-foreground hover:text-background">
+          Earn
+        </span>
       </div>
     </Link>
   )
