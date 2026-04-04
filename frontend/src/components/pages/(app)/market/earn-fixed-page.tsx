@@ -2,10 +2,12 @@
 
 import { useState } from "react"
 import Image from "next/image"
+import Link from "next/link"
 import { InfoIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 interface EarnAsset {
+  slug: string
   name: string
   subtitle: string
   logo: string
@@ -19,6 +21,7 @@ interface EarnAsset {
 
 const assets: EarnAsset[] = [
   {
+    slug: "init-usdc-lp",
     name: "INIT-USDC LP",
     subtitle: "Enshrined Liquidity",
     logo: "/Assets/Images/Logo/init-logo.png",
@@ -30,6 +33,7 @@ const assets: EarnAsset[] = [
     liquidity: "$124,500",
   },
   {
+    slug: "esinit",
     name: "esINIT",
     subtitle: "VIP Rewards",
     logo: "/Assets/Images/Logo/init-logo.png",
@@ -41,6 +45,7 @@ const assets: EarnAsset[] = [
     liquidity: "$68,200",
   },
   {
+    slug: "sinit",
     name: "sINIT",
     subtitle: "Liquid Staking",
     logo: "/Assets/Images/Logo/inertia-logo.png",
@@ -125,7 +130,10 @@ export function EarnFixedPage() {
 
 function EarnRow({ asset }: { asset: EarnAsset }) {
   return (
-    <div className="grid grid-cols-1 items-center gap-4 rounded-2xl border border-foreground/10 bg-foreground/[0.02] px-6 py-5 transition-colors hover:bg-foreground/[0.04] md:grid-cols-12">
+    <Link
+      href={`/market/earn/${asset.slug}`}
+      className="grid cursor-pointer grid-cols-1 items-center gap-4 rounded-2xl border border-foreground/10 bg-foreground/[0.02] px-6 py-5 transition-colors hover:bg-foreground/[0.04] md:grid-cols-12"
+    >
       <div className="col-span-3 flex items-center gap-3">
         <Image
           src={asset.logo}
@@ -167,6 +175,6 @@ function EarnRow({ asset }: { asset: EarnAsset }) {
       <div className="col-span-2 text-right text-sm font-medium text-foreground">
         {asset.liquidity}
       </div>
-    </div>
+    </Link>
   )
 }
