@@ -1,3 +1,38 @@
+## Initia Hackathon Submission
+
+- **Project Name**: Leticia
+
+### Project Overview
+
+Leticia is a fixed yield protocol built on an Initia EVM rollup. It lets users deposit yield-bearing assets (INIT, sINIT, USDe) and earn guaranteed fixed-rate returns — like a crypto fixed deposit. The protocol sources yield from Initia-native protocols (Enshrined Liquidity, Inertia staking, Ethena) and locks in the rate at deposit time, solving the problem of unpredictable DeFi yields for users who want certainty.
+
+### Implementation Detail
+
+- **The Custom Implementation**: A FixedYieldVault smart contract (Solidity, OpenZeppelin v5) that manages multi-asset deposits with configurable fixed rates, maturity periods, and early withdrawal penalties. Each asset has its own vault configuration backed by a specific Initia-native yield source. The vault handles position tracking, yield calculation, and secure withdrawals with reentrancy protection.
+
+- **The Native Feature**: We use **Interwoven Bridge** (InterwovenKit) as the primary wallet and transaction layer. All transactions — token minting, approvals, and vault deposits — go through InterwovenKit's `requestTxBlock` with MsgCall, providing users with a native Initia wallet popup for transaction signing instead of requiring MetaMask. This creates a seamless UX within the Initia ecosystem.
+
+### How to Run Locally
+
+1. Start the Initia rollup, executor, and relayer:
+   ```bash
+   weave rollup start
+   weave opinit start executor
+   weave relayer start
+   ```
+2. Clone the repo and install frontend dependencies:
+   ```bash
+   git clone https://github.com/0xpochita/Leticia.git
+   cd Leticia/frontend && pnpm install
+   ```
+3. Start the development server:
+   ```bash
+   pnpm dev
+   ```
+4. Open `http://localhost:3000`, connect wallet via InterwovenKit, mint test tokens from the Faucet page, and deposit into the Earn Fixed Yield vaults.
+
+---
+
 <p align="center">
   <img src="frontend/public/Assets/Images/Logo-Brands/logo-leticia.png" alt="Leticia" width="120" />
 </p>
