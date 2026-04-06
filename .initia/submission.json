@@ -3,10 +3,10 @@
   "repo_url": "https://github.com/0xpochita/Leticia",
   "commit_sha": "",
   "rollup_chain_id": "leticia-rollup-7",
-  "deployed_address": "0x",
+  "deployed_address": "0x9fA35B449D0363893B6Fcb6781C82c817f4A0bED",
   "vm": "evm",
-  "native_feature": "",
-  "core_logic_path": "",
+  "native_feature": "Fixed Yield Vault — deposit ERC20 tokens and earn guaranteed fixed-rate returns with auto-compound, powered by Initia native yield sources (sINIT, INIT, USDe)",
+  "core_logic_path": "/contracts/src/FixedYieldVault.sol",
   "native_feature_frontend_path": "/frontend",
   "demo_video_url": ""
 }
