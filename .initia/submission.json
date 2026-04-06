@@ -7,6 +7,6 @@
   "vm": "evm",
   "native_feature": "interwoven-bridge",
   "core_logic_path": "/contracts/src/FixedYieldVault.sol",
-  "native_feature_frontend_path": "/frontend",
+  "native_feature_frontend_path": "/frontend/src/components/providers/interwoven-provider.tsx",
   "demo_video_url": ""
 }
