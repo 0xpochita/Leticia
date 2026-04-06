@@ -5,7 +5,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
-import { WalletIcon } from "lucide-react"
+import { ConnectWalletButton } from "@/components/ui/connect-wallet-button"
 
 const navLinks = [
   { label: "Earn", href: "/market/earn" },
@@ -51,13 +51,7 @@ export function AppHeader() {
           ))}
         </div>
 
-        <button
-          type="button"
-          className="flex cursor-pointer items-center gap-2 rounded-full border border-foreground px-5 py-2 text-sm font-medium text-foreground transition-colors hover:bg-foreground hover:text-background"
-        >
-          <WalletIcon className="size-4" />
-          Connect Wallet
-        </button>
+        <ConnectWalletButton />
       </nav>
     </header>
   )

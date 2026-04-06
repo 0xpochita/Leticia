@@ -3,6 +3,7 @@
 import { useState } from "react"
 import Image from "next/image"
 import { SearchIcon, LockIcon, ArrowLeftIcon, InfoIcon, ChevronDownIcon, WalletIcon } from "lucide-react"
+import { useInterwovenKit } from "@initia/interwovenkit-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { FiChevronRight } from "react-icons/fi"
 
@@ -288,14 +289,34 @@ function DepositModal({ asset, onClose }: { asset: EarnAsset; onClose: () => voi
           *This deposit has smart contract and other risks. You accept it when depositing.
         </p>
 
-        <button
-          type="button"
-          className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-foreground py-4 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
-        >
-          <WalletIcon className="size-4" />
-          Connect Wallet
-        </button>
+        <DepositCTA />
       </motion.div>
     </motion.div>
+  )
+}
+
+function DepositCTA() {
+  const { isConnected, openConnect } = useInterwovenKit()
+
+  if (isConnected) {
+    return (
+      <button
+        type="button"
+        className="mt-4 w-full cursor-pointer rounded-2xl bg-foreground py-4 text-center text-sm font-medium text-background transition-colors hover:bg-foreground/90"
+      >
+        Deposit
+      </button>
+    )
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={openConnect}
+      className="mt-4 flex w-full cursor-pointer items-center justify-center gap-2 rounded-2xl bg-foreground py-4 text-sm font-medium text-background transition-colors hover:bg-foreground/90"
+    >
+      <WalletIcon className="size-4" />
+      Connect Wallet
+    </button>
   )
 }
