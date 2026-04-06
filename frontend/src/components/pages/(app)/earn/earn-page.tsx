@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import { SearchIcon, ArrowLeftIcon, InfoIcon, ChevronDownIcon, WalletIcon, Loader2Icon, CheckIcon } from "lucide-react"
+import { SearchIcon, ArrowLeftIcon, InfoIcon, WalletIcon, Loader2Icon, CheckIcon } from "lucide-react"
 import { useInterwovenKit } from "@initia/interwovenkit-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { FiChevronRight } from "react-icons/fi"
@@ -103,7 +103,7 @@ function EarnRow({ token, onDeposit }: { token: TokenInfo; onDeposit: () => void
         />
         <div>
           <p className="text-sm font-medium text-foreground">{token.name}</p>
-          <p className="text-[11px] text-foreground/35">{token.subtitle}</p>
+          <p className="text-[11px] text-foreground/35">{token.yieldSource.protocol} · {token.yieldSource.mechanism}</p>
         </div>
       </div>
 
@@ -255,7 +255,8 @@ function DepositModal({ token, onClose }: { token: TokenInfo; onClose: () => voi
         </div>
 
         <div className="mt-6 flex items-center justify-between">
-          <span className="text-xs text-foreground/40">
+          <span className="flex items-center gap-1.5 text-xs text-foreground/40">
+            <Image src={token.logo} alt="" width={14} height={14} className="size-3.5 rounded-full" />
             {token.name} Balance: <strong className="text-foreground">{Number(balance).toLocaleString(undefined, { maximumFractionDigits: 2 })}</strong>
           </span>
           <button
@@ -298,16 +299,31 @@ function DepositModal({ token, onClose }: { token: TokenInfo; onClose: () => voi
           </div>
 
           <div className="flex items-center justify-between px-5 py-3">
-            <div className="flex items-center gap-1">
-              <span className="text-xs text-foreground/50">Provider</span>
-              <InfoIcon className="size-3 text-foreground/25" />
-            </div>
+            <span className="text-xs text-foreground/50">Yield Source</span>
             <div className="flex items-center gap-1.5">
-              <span className="text-xs font-medium text-foreground">{token.subtitle}</span>
               <Image src={token.logo} alt="" width={16} height={16} className="size-4 rounded-full" />
-              <ChevronDownIcon className="size-3 text-foreground/30" />
+              <span className="text-xs font-medium text-foreground">{token.yieldSource.protocol}</span>
             </div>
           </div>
+
+          <div className="flex items-center justify-between px-5 py-3">
+            <span className="text-xs text-foreground/50">Mechanism</span>
+            <span className="text-xs font-medium text-foreground">{token.yieldSource.mechanism}</span>
+          </div>
+
+          <div className="flex items-center justify-between px-5 py-3">
+            <span className="text-xs text-foreground/50">Underlying Asset</span>
+            <span className="flex items-center gap-1.5 text-xs font-medium text-foreground">
+              <Image src={token.logo} alt="" width={14} height={14} className="size-3.5 rounded-full" />
+              {token.yieldSource.underlying}
+            </span>
+          </div>
+        </div>
+
+        <div className="mt-3 rounded-xl bg-foreground/3 px-4 py-3">
+          <p className="text-[11px] leading-relaxed text-foreground/40">
+            {token.yieldSource.description}
+          </p>
         </div>
 
         <p className="mt-4 text-center text-[10px] text-foreground/30">

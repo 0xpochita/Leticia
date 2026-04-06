@@ -14,6 +14,12 @@ export const TOKENS = {
     subtitle: "Initia Network",
     logo: "/Assets/Images/Logo/init-logo.png",
     decimals: 18,
+    yieldSource: {
+      protocol: "Enshrined Liquidity",
+      description: "Yield from INIT-USDC LP rewards via Initia Enshrined Liquidity. The protocol stakes deposited INIT into native liquidity pools and locks in the current rate as your fixed return.",
+      mechanism: "LP Staking Rewards",
+      underlying: "INIT-USDC LP",
+    },
   },
   sINIT: {
     address: "0x668188d659dCa10adb4c69fB86Ae877414deA30E" as `0x${string}`,
@@ -21,6 +27,12 @@ export const TOKENS = {
     subtitle: "Liquid Staking",
     logo: "/Assets/Images/Logo/inertia-logo.png",
     decimals: 18,
+    yieldSource: {
+      protocol: "Inertia",
+      description: "Yield from INIT staking rewards via Inertia liquid staking. sINIT accrues staking yield over time and the protocol locks in the current rate as your fixed return.",
+      mechanism: "Liquid Staking Rewards",
+      underlying: "Staked INIT (sINIT)",
+    },
   },
   USDe: {
     address: "0xc4762d119A39b943921bF4777EFe39BF373F7c15" as `0x${string}`,
@@ -28,6 +40,12 @@ export const TOKENS = {
     subtitle: "Ethena Stablecoin",
     logo: "/Assets/Images/Logo/usde-logo.svg",
     decimals: 18,
+    yieldSource: {
+      protocol: "Ethena",
+      description: "Yield from Ethena sUSDe staking and delta-neutral strategy. The protocol deposits USDe into Ethena vaults and locks in the current rate as your fixed return.",
+      mechanism: "Delta-Neutral Yield",
+      underlying: "Staked USDe (sUSDe)",
+    },
   },
 } as const
 
