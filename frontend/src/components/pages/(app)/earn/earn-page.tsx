@@ -21,7 +21,7 @@ const assets: EarnAsset[] = [
   {
     name: "INIT",
     subtitle: "Initia Network",
-    logo: "/Assets/Images/Logo/init-logo.webp",
+    logo: "/Assets/Images/Logo/init-logo.png",
     apr: "12%",
     deposited: "$124.5K",
     maturity: "30 Jun 2026",
@@ -30,7 +30,7 @@ const assets: EarnAsset[] = [
   {
     name: "USDe",
     subtitle: "Ethena Stablecoin",
-    logo: "/Assets/Images/Logo/susde-logo.webp",
+    logo: "/Assets/Images/Logo/usde-logo.svg",
     apr: "7%",
     deposited: "$68.2K",
     maturity: "30 Jun 2026",
