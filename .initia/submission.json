@@ -1,0 +1,12 @@
+{
+  "project_name": "Leticia",
+  "repo_url": "https://github.com/0xpochita/Leticia",
+  "commit_sha": "",
+  "rollup_chain_id": "leticia-rollup-7",
+  "deployed_address": "0x",
+  "vm": "evm",
+  "native_feature": "",
+  "core_logic_path": "",
+  "native_feature_frontend_path": "/frontend",
+  "demo_video_url": ""
+}
