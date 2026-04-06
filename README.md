@@ -14,12 +14,14 @@ Leticia is a fixed yield protocol built on an Initia EVM rollup. It lets users d
 
 ### How to Run Locally
 
-1. Start the Initia rollup, executor, and relayer:
+1. Start the Initia rollup infrastructure (3 separate terminals):
    ```bash
-   weave rollup start
-   weave opinit start executor
-   weave relayer start
+   weave rollup start              # Starts minitiad — the EVM rollup node that produces blocks and processes transactions
+   weave opinit start executor     # Starts opinitd executor — submits rollup batch data to Initia L1 for settlement
+   weave relayer start             # Starts the IBC relayer — bridges messages and tokens between L1 and the rollup
    ```
+   > `weave rollup start` runs the core blockchain node (RPC on :26657, REST on :1317, EVM JSON-RPC on :8545). `weave opinit start executor` handles L2→L1 output submission so the rollup state is anchored to Initia L1. `weave relayer start` enables cross-chain communication via IBC, allowing token transfers between Initia mainchain and the Leticia rollup.
+
 2. Clone the repo and install frontend dependencies:
    ```bash
    git clone https://github.com/0xpochita/Leticia.git
