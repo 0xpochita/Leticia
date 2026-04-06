@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://scan.testnet.initia.xyz/leticia-rollup-7"><strong>Initia Scan</strong></a> · <a href="https://github.com/0xpochita/Leticia">Repository</a>
+  <a href="https://github.com/0xpochita/Leticia/blob/main/.initia/submission.json"><strong>Submission Metadata</strong></a>
 </p>
 
 ---
