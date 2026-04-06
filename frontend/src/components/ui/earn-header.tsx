@@ -11,6 +11,7 @@ const navLinks = [
   { label: "Earn", href: "/earn" },
   { label: "Portfolio", href: "/earn/portfolio" },
   { label: "Rewards", href: "/earn/rewards" },
+  { label: "Faucet", href: "/earn/faucet" },
 ]
 
 export function EarnHeader() {

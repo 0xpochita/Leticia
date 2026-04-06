@@ -115,9 +115,9 @@ export function HeroSection() {
           animate="visible"
           variants={fadeUp}
         >
-          Split yield-bearing assets into Principal and Yield Tokens on a
-          custom yield-aware AMM. Fixed rates, yield speculation, and leveraged
-          esINIT farming — native to Initia.
+          Deposit yield-bearing assets and earn guaranteed fixed returns.
+          No active management, no variable swings — just predictable yield,
+          native to Initia.
         </motion.p>
 
         <motion.div

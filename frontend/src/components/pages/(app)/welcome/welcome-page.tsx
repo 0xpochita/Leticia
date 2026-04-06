@@ -154,7 +154,7 @@ export function WelcomePage() {
         Back to homepage
       </Link>
 
-      <div className="mt-12 grid w-full grid-cols-1 gap-6 md:grid-cols-2">
+      <div className="mt-12 w-full max-w-lg">
         <div onClick={() => handleNavigate("/earn")} onKeyDown={() => {}} role="button" tabIndex={0} className="group cursor-pointer">
           <Card className="flex h-full flex-col gap-3 overflow-hidden rounded-3xl border p-3 shadow-lg transition-shadow group-hover:shadow-xl">
             <CardHeader className="p-0">
@@ -175,15 +175,15 @@ export function WelcomePage() {
             <CardContent className="flex flex-grow flex-col gap-4 p-3">
               <div className="flex items-center gap-2">
                 <Badge className="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground hover:text-foreground">
-                  Simple Mode
+                  Earn
                 </Badge>
                 <Badge className="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground hover:text-foreground">
-                  Low Risk
+                  Fixed Yield
                 </Badge>
               </div>
 
               <h2 className="text-2xl font-medium leading-tight tracking-[-0.04em] text-foreground">
-                New to DeFi
+                Earn Fixed Yield
               </h2>
 
               <p className="text-sm leading-relaxed text-muted-foreground">
@@ -213,76 +213,7 @@ export function WelcomePage() {
 
             <CardFooter className="p-3 pt-0">
               <div className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl border border-foreground/10 py-3 text-sm font-medium text-foreground transition-colors group-hover:bg-foreground group-hover:text-background">
-                Enter Simple Mode
-                <FiChevronRight className="size-4" />
-              </div>
-            </CardFooter>
-          </Card>
-        </div>
-
-        <div onClick={() => handleNavigate("/market")} onKeyDown={() => {}} role="button" tabIndex={0} className="group cursor-pointer">
-          <Card className="flex h-full flex-col gap-3 overflow-hidden rounded-3xl border p-3 shadow-lg transition-shadow group-hover:shadow-xl">
-            <CardHeader className="p-0">
-              <div className="flex h-52 w-full items-center justify-center rounded-2xl bg-foreground">
-                <AnimatedLogos
-                  dark
-                  logos={[
-                    { src: "/Assets/Images/Logo/init-logo.webp", alt: "INIT" },
-                    {
-                      src: "/Assets/Images/Logo/susde-logo.webp",
-                      alt: "sUSDe",
-                    },
-                    {
-                      src: "/Assets/Images/Logo/inertia-logo.png",
-                      alt: "sINIT",
-                    },
-                  ]}
-                />
-              </div>
-            </CardHeader>
-
-            <CardContent className="flex flex-grow flex-col gap-4 p-3">
-              <div className="flex items-center gap-2">
-                <Badge className="rounded-full bg-foreground px-3 py-1 text-xs text-background hover:bg-foreground/80">
-                  Expert Mode
-                </Badge>
-                <Badge className="rounded-full bg-muted px-3 py-1 text-xs text-muted-foreground hover:text-foreground">
-                  High Reward
-                </Badge>
-              </div>
-
-              <h2 className="text-2xl font-medium leading-tight tracking-[-0.04em] text-foreground">
-                DeFi Expert
-              </h2>
-
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Trade PT and YT tokens directly. Access leveraged yield
-                positions, provide liquidity, and manage your portfolio.
-              </p>
-
-              <div className="grid grid-cols-2 gap-2 pt-2">
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <span className="size-1.5 rounded-full bg-foreground" />
-                  PT / YT Trading
-                </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <span className="size-1.5 rounded-full bg-foreground" />
-                  Up to 25x Leverage
-                </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <span className="size-1.5 rounded-full bg-foreground" />
-                  Yield Speculation
-                </div>
-                <div className="flex items-center gap-2 text-xs text-muted-foreground">
-                  <span className="size-1.5 rounded-full bg-foreground" />
-                  LP Rewards
-                </div>
-              </div>
-            </CardContent>
-
-            <CardFooter className="p-3 pt-0">
-              <div className="flex w-full cursor-pointer items-center justify-center gap-2 rounded-xl bg-foreground py-3 text-sm font-medium text-background transition-colors group-hover:bg-foreground/90">
-                Enter Expert Mode
+                Start Earning
                 <FiChevronRight className="size-4" />
               </div>
             </CardFooter>
