@@ -6,8 +6,9 @@ import { SearchIcon, ArrowLeftIcon, InfoIcon, ChevronDownIcon, WalletIcon, Loade
 import { useInterwovenKit } from "@initia/interwovenkit-react"
 import { motion, AnimatePresence } from "framer-motion"
 import { FiChevronRight } from "react-icons/fi"
-import { useReadContract, useReadContracts, useWriteContract, useWaitForTransactionReceipt } from "wagmi"
-import { parseUnits, formatUnits } from "viem"
+import { useReadContract, useReadContracts } from "wagmi"
+import { encodeFunctionData, parseUnits, formatUnits } from "viem"
+import { LETICIA_ROLLUP } from "@/config/network"
 import { FIXED_YIELD_VAULT, TOKEN_LIST, ERC20_ABI } from "@/config/contracts"
 
 type TokenInfo = (typeof TOKEN_LIST)[number]
@@ -129,9 +130,12 @@ function EarnRow({ token, onDeposit }: { token: TokenInfo; onDeposit: () => void
 }
 
 function DepositModal({ token, onClose }: { token: TokenInfo; onClose: () => void }) {
-  const { isConnected, address, openConnect } = useInterwovenKit()
+  const { isConnected, address, hexAddress, initiaAddress, openConnect, requestTxBlock } = useInterwovenKit()
   const [amount, setAmount] = useState("")
+  const [status, setStatus] = useState<"idle" | "approving" | "depositing" | "success">("idle")
   const numAmount = Number.parseFloat(amount) || 0
+
+  const evmAddr = (hexAddress || address) as `0x${string}`
 
   const { data: vaultConfig } = useReadContract({
     address: FIXED_YIELD_VAULT.address,
@@ -145,52 +149,68 @@ function DepositModal({ token, onClose }: { token: TokenInfo; onClose: () => voi
   const daysLeft = Math.ceil(duration / 86400)
 
   const { data: balanceData } = useReadContracts({
-    contracts: address
-      ? [{ address: token.address, abi: ERC20_ABI, functionName: "balanceOf", args: [address as `0x${string}`] }]
+    contracts: evmAddr
+      ? [{ address: token.address, abi: ERC20_ABI, functionName: "balanceOf", args: [evmAddr] }]
       : [],
   })
 
   const balance = balanceData?.[0]?.result ? formatUnits(balanceData[0].result as bigint, token.decimals) : "0"
   const estimatedProfit = numAmount * (fixedRate / 100) * (daysLeft / 365)
 
-  const { writeContract: writeApprove, data: approveTx, isPending: isApproving } = useWriteContract()
-  const { isLoading: isApproveConfirming, isSuccess: isApproveSuccess } = useWaitForTransactionReceipt({ hash: approveTx })
-
-  const { writeContract: writeDeposit, data: depositTx, isPending: isDepositing } = useWriteContract()
-  const { isLoading: isDepositConfirming, isSuccess: isDepositSuccess } = useWaitForTransactionReceipt({ hash: depositTx })
-
-  const handleDeposit = () => {
-    if (numAmount <= 0) return
+  const handleDeposit = async () => {
+    if (numAmount <= 0 || !initiaAddress) return
     const parsedAmount = parseUnits(amount, token.decimals)
 
-    if (!isApproveSuccess) {
-      writeApprove({
-        address: token.address,
+    try {
+      setStatus("approving")
+      const approveInput = encodeFunctionData({
         abi: ERC20_ABI,
         functionName: "approve",
         args: [FIXED_YIELD_VAULT.address, parsedAmount],
       })
-    } else {
-      writeDeposit({
-        address: FIXED_YIELD_VAULT.address,
+      await requestTxBlock({
+        chainId: LETICIA_ROLLUP.chainId,
+        messages: [{
+          typeUrl: "/minievm.evm.v1.MsgCall",
+          value: {
+            sender: initiaAddress,
+            contractAddr: token.address,
+            input: approveInput,
+            value: "0",
+            accessList: [],
+            authList: [],
+          },
+        }],
+      })
+
+      setStatus("depositing")
+      const depositInput = encodeFunctionData({
         abi: FIXED_YIELD_VAULT.abi,
         functionName: "deposit",
         args: [token.address, parsedAmount],
       })
+      await requestTxBlock({
+        chainId: LETICIA_ROLLUP.chainId,
+        messages: [{
+          typeUrl: "/minievm.evm.v1.MsgCall",
+          value: {
+            sender: initiaAddress,
+            contractAddr: FIXED_YIELD_VAULT.address,
+            input: depositInput,
+            value: "0",
+            accessList: [],
+            authList: [],
+          },
+        }],
+      })
+
+      setStatus("success")
+    } catch {
+      setStatus("idle")
     }
   }
 
-  if (isApproveSuccess && !depositTx && !isDepositing) {
-    const parsedAmount = parseUnits(amount, token.decimals)
-    writeDeposit({
-      address: FIXED_YIELD_VAULT.address,
-      abi: FIXED_YIELD_VAULT.abi,
-      functionName: "deposit",
-      args: [token.address, parsedAmount],
-    })
-  }
-
-  const loading = isApproving || isApproveConfirming || isDepositing || isDepositConfirming
+  const loading = status === "approving" || status === "depositing"
 
   return (
     <motion.div
@@ -294,7 +314,7 @@ function DepositModal({ token, onClose }: { token: TokenInfo; onClose: () => voi
           *This deposit has smart contract and other risks. You accept it when depositing.
         </p>
 
-        {isDepositSuccess ? (
+        {status === "success" ? (
           <div className="mt-4 flex w-full items-center justify-center gap-2 rounded-2xl bg-foreground/5 py-4 text-sm font-medium text-foreground">
             <CheckIcon className="size-4" />
             Deposit Successful
@@ -318,7 +338,7 @@ function DepositModal({ token, onClose }: { token: TokenInfo; onClose: () => voi
             {loading ? (
               <span className="flex items-center justify-center gap-2">
                 <Loader2Icon className="size-4 animate-spin" />
-                {isApproving || isApproveConfirming ? "Approving..." : "Depositing..."}
+                {status === "approving" ? "Approving..." : "Depositing..."}
               </span>
             ) : (
               "Deposit"

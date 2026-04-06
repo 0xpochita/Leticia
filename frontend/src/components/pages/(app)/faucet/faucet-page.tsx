@@ -1,12 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import Image from "next/image"
 import { CheckIcon, Loader2Icon, WalletIcon } from "lucide-react"
 import { useInterwovenKit } from "@initia/interwovenkit-react"
-import { useWriteContract, useWaitForTransactionReceipt, useReadContracts } from "wagmi"
-import { parseUnits, formatUnits } from "viem"
+import { useReadContracts } from "wagmi"
+import { encodeFunctionData, parseUnits, formatUnits } from "viem"
 import { TOKEN_LIST, ERC20_ABI } from "@/config/contracts"
+import { LETICIA_ROLLUP } from "@/config/network"
 
 const MINT_AMOUNT = "1000"
 
@@ -36,7 +37,7 @@ export function FaucetPage() {
       ) : (
         <div className="mt-8 flex flex-col gap-4">
           {TOKEN_LIST.map((token) => (
-            <FaucetRow key={token.name} token={token} userAddress={address as `0x${string}`} />
+            <FaucetRow key={token.name} token={token} userAddress={address as string} />
           ))}
         </div>
       )}
@@ -49,17 +50,20 @@ function FaucetRow({
   userAddress,
 }: {
   token: (typeof TOKEN_LIST)[number]
-  userAddress: `0x${string}`
+  userAddress: string
 }) {
-  const [minted, setMinted] = useState(false)
+  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle")
+  const { initiaAddress, hexAddress, requestTxBlock } = useInterwovenKit()
 
-  const { data: balanceResult } = useReadContracts({
+  const evmAddr = (hexAddress || userAddress) as `0x${string}`
+
+  const { data: balanceResult, refetch } = useReadContracts({
     contracts: [
       {
         address: token.address,
         abi: ERC20_ABI,
         functionName: "balanceOf",
-        args: [userAddress],
+        args: [evmAddr],
       },
     ],
   })
@@ -68,27 +72,41 @@ function FaucetRow({
     ? formatUnits(balanceResult[0].result as bigint, token.decimals)
     : "0"
 
-  const { writeContract, data: txHash, isPending } = useWriteContract()
+  const handleMint = useCallback(async () => {
+    if (!initiaAddress) return
+    setStatus("loading")
 
-  const { isLoading: isConfirming, isSuccess } = useWaitForTransactionReceipt({
-    hash: txHash,
-  })
+    try {
+      const input = encodeFunctionData({
+        abi: ERC20_ABI,
+        functionName: "mint",
+        args: [evmAddr, parseUnits(MINT_AMOUNT, token.decimals)],
+      })
 
-  const handleMint = () => {
-    setMinted(false)
-    writeContract({
-      address: token.address,
-      abi: ERC20_ABI,
-      functionName: "mint",
-      args: [userAddress, parseUnits(MINT_AMOUNT, token.decimals)],
-    })
-  }
+      await requestTxBlock({
+        chainId: LETICIA_ROLLUP.chainId,
+        messages: [
+          {
+            typeUrl: "/minievm.evm.v1.MsgCall",
+            value: {
+              sender: initiaAddress,
+              contractAddr: token.address,
+              input,
+              value: "0",
+              accessList: [],
+              authList: [],
+            },
+          },
+        ],
+      })
 
-  if (isSuccess && !minted) {
-    setMinted(true)
-  }
-
-  const loading = isPending || isConfirming
+      setStatus("success")
+      setTimeout(() => refetch(), 2000)
+      setTimeout(() => setStatus("idle"), 4000)
+    } catch {
+      setStatus("idle")
+    }
+  }, [initiaAddress, evmAddr, token, requestTxBlock, refetch])
 
   return (
     <div className="flex items-center justify-between rounded-2xl border border-foreground/10 px-5 py-4">
@@ -117,15 +135,15 @@ function FaucetRow({
         <button
           type="button"
           onClick={handleMint}
-          disabled={loading}
+          disabled={status === "loading"}
           className="flex cursor-pointer items-center gap-1.5 rounded-full bg-foreground px-5 py-2.5 text-xs font-medium text-background transition-colors hover:bg-foreground/90 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {loading ? (
+          {status === "loading" ? (
             <>
               <Loader2Icon className="size-3.5 animate-spin" />
               Minting...
             </>
-          ) : minted ? (
+          ) : status === "success" ? (
             <>
               <CheckIcon className="size-3.5" />
               Minted
