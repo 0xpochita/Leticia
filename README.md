@@ -172,37 +172,110 @@ User deposits USDe
 
 ---
 
-## Project Structure
+## Business Model
+
+---
+
+### Protocol Fee
+
+Leticia generates revenue through the **yield spread** — the difference between the variable yield earned from underlying protocols and the fixed rate offered to users.
 
 ```
-Leticia/
-├── frontend/                          # Next.js frontend application
-│   ├── src/
-│   │   ├── app/                       # Next.js routes (earn, portfolio, faucet)
-│   │   ├── components/                # UI components
-│   │   │   ├── pages/(app)/           # Page components (earn, portfolio, faucet)
-│   │   │   ├── pages/(landing)/       # Landing page sections
-│   │   │   ├── providers/             # InterwovenKit provider
-│   │   │   └── ui/                    # Shared UI components
-│   │   ├── config/                    # Network & contract config
-│   │   └── lib/                       # Utilities
-│   └── public/                        # Static assets
-├── contracts/                         # Foundry smart contracts
-│   ├── src/
-│   │   ├── FixedYieldVault.sol        # Core vault contract
-│   │   ├── interfaces/
-│   │   │   └── IFixedYieldVault.sol   # Vault interface
-│   │   └── mocks/
-│   │       └── MockERC20.sol          # Test tokens
-│   ├── test/
-│   │   └── FixedYieldVault.t.sol      # 16 tests (unit + fuzz)
-│   ├── script/
-│   │   └── Deploy.s.sol              # Deployment script
-│   ├── foundry.toml                   # Foundry config
-│   └── remappings.txt                 # Import remappings
-└── .initia/
-    └── submission.json                # Hackathon submission metadata
+Variable yield from protocol    ~12-18% APR (fluctuates)
+Fixed rate offered to user      ~7-15% APR (locked at deposit)
+────────────────────────────────────────────────
+Spread retained by protocol     ~2-5% APR (protocol margin)
 ```
+
+| Fee Type | Amount | Description |
+|---|---|---|
+| Deposit Fee | 0% | No fee on deposits |
+| Withdrawal Fee | 0% | No fee at maturity |
+| Early Exit Penalty | 5% | Penalty on principal for withdrawals before maturity |
+| Yield Spread | ~2-5% | Difference between variable yield earned and fixed rate paid |
+
+The protocol takes zero upfront fees. All revenue comes from the natural spread between what the underlying yield sources generate and what users are guaranteed.
+
+---
+
+### Revenue Model
+
+| Source | Model | Description |
+|---|---|---|
+| **Yield Spread** | Variable margin | Protocol stakes user deposits into Initia-native yield sources. The spread between variable yield (~12-18%) and fixed rate paid to users (~7-15%) is protocol revenue |
+| **Early Exit Penalties** | 5% of principal | Users who withdraw before maturity forfeit 5% of their deposited principal — this goes to the protocol treasury |
+| **Treasury Yield** | Compound earnings | Accumulated protocol fees are re-staked into yield sources, generating additional compound returns |
+
+### Unit Economics
+
+| Metric | Value |
+|---|---|
+| Avg. deposit size | 1,000 tokens |
+| Avg. yield spread | 3% APR |
+| Revenue per deposit/year | 1,000 x 3% = **30 tokens** |
+| Early exit rate (est.) | 15% of users |
+| Early exit revenue per deposit | 1,000 x 5% x 15% = **7.5 tokens** |
+| Total revenue per deposit/year | **37.5 tokens** |
+| Target deposits (Year 1) | 1,000 |
+| Projected ARR (Year 1) | **37,500 tokens** |
+
+---
+
+### Flywheel
+
+```
+More users deposit
+        │
+        ▼
+Higher TVL in vaults
+        │
+        ▼
+More capital staked to Initia yield sources ──► Better negotiating power with protocols
+        │                                                            │
+        ▼                                                            ▼
+More yield spread generated ──► More protocol revenue      Higher fixed rates offered
+        │                                                            │
+        ▼                                                            ▼
+Better product & liquidity ◄────────────────────────── Attracts more depositors
+```
+
+**Network effects:**
+- Higher TVL = deeper yield reserves = ability to offer better fixed rates = more deposits
+- Each satisfied user becomes a referral source — fixed yield is easy to explain and sell
+- Protocol treasury grows with TVL, creating a self-reinforcing yield buffer
+- More assets supported = broader user base = more TVL per asset
+
+---
+
+### Market Analysis
+
+**Total Addressable Market (TAM)**
+
+The yield tokenization market across DeFi is estimated at $5B+ TVL (Pendle alone holds ~$3B). Initia is a new L1 ecosystem with growing DeFi activity and no existing fixed yield protocol.
+
+**Why Initia**
+
+| Factor | Advantage |
+|---|---|
+| **No competition** | Zero fixed yield protocols on Initia today — first mover advantage |
+| **Native yield sources** | Enshrined Liquidity, Inertia staking, and VIP rewards are unique to Initia |
+| **EVM compatibility** | Familiar Solidity tooling, easy for DeFi developers to integrate |
+| **Growing ecosystem** | Initia hackathon and grants driving new projects and TVL |
+| **Interchain architecture** | Initia rollups can bridge assets from other chains, expanding the depositor base |
+
+**Competitive Landscape**
+
+| Protocol | Chain | Approach | Leticia Advantage |
+|---|---|---|---|
+| Pendle | Ethereum/Arbitrum | PT/YT AMM trading | Simpler UX — no AMM, no YT, just deposit and earn |
+| FIVA | TON | PT-focused fixed yield | First on Initia with native yield sources |
+| Spectra | Ethereum | Fixed rate vaults | Built natively for Initia ecosystem assets |
+| None | Initia | — | Leticia is the first and only fixed yield protocol on Initia |
+
+**Why Now**
+- Initia mainnet launch is approaching — early protocols capture the most TVL
+- INITIATE hackathon provides visibility and potential grants
+- sINIT, Enshrined Liquidity, and VIP rewards are generating real yield today with no way to lock it in
 
 ---
 
@@ -240,54 +313,6 @@ calculateYield(principal, rate, start, end)    — Calculate fixed yield amount
 | sINIT | 15% | 90 days | Inertia Liquid Staking Rewards |
 | USDe | 7% | 180 days | Ethena Delta-Neutral Strategy |
 
-## Setup
-
-### Smart Contract Setup
-
-```bash
-# Install Foundry
-curl -L https://foundry.paradigm.xyz | bash
-foundryup
-
-# Clone the repository
-git clone https://github.com/0xpochita/Leticia.git
-cd Leticia/contracts
-
-# Install dependencies
-forge install
-
-# Build
-forge build
-
-# Run tests
-forge test -v
-```
-
-### Frontend Setup
-
-```bash
-cd Leticia/frontend
-
-# Install dependencies
-pnpm install
-
-# Start development server
-pnpm dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) in your browser.
-
-### Rollup Requirements
-
-The app connects to a local Initia EVM rollup. Ensure `minitiad` and `opinitd` are running:
-
-| Service | Endpoint |
-|---|---|
-| RPC | `http://localhost:26657` |
-| REST | `http://localhost:1317` |
-| JSON-RPC (EVM) | `http://localhost:8545` |
-
----
 
 ## How It Works
 
@@ -321,23 +346,6 @@ User                        FixedYieldVault                  Yield Source
   ├── withdraw(positionId) ────►│                              │
   │◄── principal + fixedYield ──┤                              │
 ```
-
----
-
-## Deployment Checklist
-
-- [x] Initia EVM rollup running (leticia-rollup-7)
-- [x] FixedYieldVault smart contract deployed
-- [x] MockERC20 tokens deployed (INIT, sINIT, USDe)
-- [x] Vault configured with rates, durations, and caps
-- [x] Vault funded with yield reserves (100,000 per token)
-- [x] Frontend — Earn Fixed Yield page with real contract integration
-- [x] Frontend — Portfolio page with live position tracking
-- [x] Frontend — Faucet page for testnet token minting
-- [x] Frontend — InterwovenKit wallet integration
-- [x] Frontend — Landing page with yield source explanation
-- [x] Foundry test suite (16 tests passing)
-- [x] Submission metadata (.initia/submission.json)
 
 ---
 
