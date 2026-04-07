@@ -46,7 +46,7 @@ Leticia is a fixed yield protocol built on an Initia EVM rollup. It lets users d
 </p>
 
 <p align="center">
-  <a href="https://github.com/0xpochita/Leticia/blob/main/.initia/submission.json"><strong>Submission Metadata</strong></a>
+  <a href="https://leticiafi.gitbook.io/leticia-docs"><strong>Documentation</strong></a> · <a href="https://github.com/0xpochita/Leticia/blob/main/.initia/submission.json"><strong>Submission Metadata</strong></a>
 </p>
 
 ---
