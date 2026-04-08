@@ -1,12 +1,12 @@
 {
   "project_name": "Leticia",
   "repo_url": "https://github.com/0xpochita/Leticia",
-  "commit_sha": "f6a6c83f2a56c44203323be56567a4a923692416",
+  "commit_sha": "6db7a910de46acb8e7fd9f6742d8bb701eaf9652",
   "rollup_chain_id": "leticia-rollup-7",
   "deployed_address": "0x9fA35B449D0363893B6Fcb6781C82c817f4A0bED",
   "vm": "evm",
   "native_feature": "interwoven-bridge",
   "core_logic_path": "/contracts/src/FixedYieldVault.sol",
   "native_feature_frontend_path": "/frontend/src/components/providers/interwoven-provider.tsx",
-  "demo_video_url": ""
+  "demo_video_url": "https://youtu.be/BRuu2R1dacM?si=0ZRNjMWdeoiOFfQg"
 }

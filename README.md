@@ -46,7 +46,7 @@ Leticia is a fixed yield protocol built on an Initia EVM rollup. It lets users d
 </p>
 
 <p align="center">
-  <a href="https://leticiafi.gitbook.io/leticia-docs"><strong>Documentation</strong></a> · <a href="https://github.com/0xpochita/Leticia/blob/main/.initia/submission.json"><strong>Submission Metadata</strong></a>
+  <a href="https://leticiafi.gitbook.io/leticia-docs"><strong>Documentation</strong></a> · <a href="https://youtu.be/BRuu2R1dacM?si=0ZRNjMWdeoiOFfQg"><strong>Demo Video</strong></a> · <a href="https://github.com/0xpochita/Leticia/blob/main/.initia/submission.json"><strong>Submission Metadata</strong></a>
 </p>
 
 ---
@@ -394,6 +394,7 @@ User                        FixedYieldVault                  Yield Source
 | **Rollup** | leticia-rollup-7 |
 | **VM** | EVM (Solidity) |
 | **Contract** | `0x9fA35B449D0363893B6Fcb6781C82c817f4A0bED` |
+| **Demo Video** | [Watch on YouTube](https://youtu.be/BRuu2R1dacM?si=0ZRNjMWdeoiOFfQg) |
 | **Initia Scan** | [View on Initia Scan](https://scan.testnet.initia.xyz/leticia-rollup-7) |
 
 ---
